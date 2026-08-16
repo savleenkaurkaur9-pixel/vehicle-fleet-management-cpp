@@ -31,6 +31,16 @@ class vehicle
     {
         cout<<"ID:"<<vehicleId<<"Name:"<<name<<"Rate/hour:"<<rateperhour<<"Available:"<<(isAvailable ? "yes" : "No")<<endl;
     }
+    string getName()
+    {
+        return name;
+    }
+    bool operator<(vehicle &other){
+        return rateperhour<other.rateperhour;
+    }
+    bool operator>(vehicle &other){
+        return rateperhour>other.rateperhour;
+    }
     void rent()
     {
         if(isAvailable){
@@ -128,5 +138,10 @@ int main()
     f1.rentVehicle(0);
     f1.returnVehicle(0,5);
     f1.showAllvehicles();
+    if(c1<t1){
+        cout<<c1.getName()<<"is cheaper to rent then"<<t1.getName()<<endl;
+    }else{
+        cout<<t1.getName()<<"is cheaper to rent then"<<c1.getName()<<endl;
+    }
     return 0;
 }
