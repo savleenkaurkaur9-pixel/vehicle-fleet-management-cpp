@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<vector>
 using namespace std;
 class vehicle
 {
@@ -57,16 +58,34 @@ double calculateRent(int hours) override{
     }
 
 };
+class fleet 
+{
+    private:
+    vector<vehicle*>vehicles;
+    public:
+    void addvehicle(vehicle*v)
+    {
+        vehicles.push_back(v);
+        cout<<"vehicle added to fleet."<<endl;
+    }
+    void showAllvehicles()
+    {
+        cout<<"\n----fleet inventory----"<<endl;
+   for(int i=0;i<vehicles.size();i++)
+   {
+    vehicles[i]->showdetails();
+   }
+    }
+};
 int main()
 {
+    fleet f1;
     Car c1(1,"Honda City",150.0);
     Bike b1(2,"Royal Enfield",80.0);
     Truck t1(3,"Tata 407",200.0);
-   c1.showdetails();
-   cout<<"car rent for 5 hours:"<<c1.calculateRent(5)<<endl;
-   b1.showdetails();
-   cout<<"bike rent for 5 hours:"<<b1.calculateRent(5)<<endl;
-   t1.showdetails();
-   cout<<"truck rent for 5 hours:"<<t1.calculateRent(5)<<endl;
+    f1.addvehicle(&c1);
+    f1.addvehicle(&b1);
+    f1.addvehicle(&t1);
+    f1.showAllvehicles();
     return 0;
 }
