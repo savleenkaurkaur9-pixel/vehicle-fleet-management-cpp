@@ -9,6 +9,7 @@ class vehicle
     string name;
     double rateperhour;
     bool isAvailable;
+    int rentedHours;
     public:
     vehicle(int id,string vname,double rate)
     {
@@ -29,6 +30,27 @@ class vehicle
     void showdetails()
     {
         cout<<"ID:"<<vehicleId<<"Name:"<<name<<"Rate/hour:"<<rateperhour<<"Available:"<<(isAvailable ? "yes" : "No")<<endl;
+    }
+    void rent()
+    {
+        if(isAvailable){
+            isAvailable=false;
+            cout<<name<<"has been rented."<<endl;
+        }
+        else{
+            cout<<name<<"is not available right now."<<endl;
+        }
+    }
+    double returnVehicle(int hours){
+        if(!isAvailable){
+            isAvailable=true;
+            double bill=calculateRent(hours);
+            cout<<name<<"returned.hours used:"<<hours<< ".total bill:"<<bill<<endl;
+            return bill;
+        }else{
+            cout<<name<<"was  not rented."<<endl;
+            return 0;
+        }
     }
 };
 class Car:public vehicle
@@ -76,6 +98,22 @@ class fleet
     vehicles[i]->showdetails();
    }
     }
+    void rentVehicle(int index)
+    {
+        if(index>=0 && index<vehicles.size()){
+vehicles[index]->rent();
+        }else{
+            cout<<"Invalid vehicle selection."<<endl;
+        }
+    }
+    void returnVehicle(int index,int hours){
+        if(index>=0 && index<vehicles.size()){
+            vehicles[index]->returnVehicle(hours);
+        }else{
+            cout<<"Invalid vehicle selection."<<endl;
+
+        }
+    }
 };
 int main()
 {
@@ -86,6 +124,9 @@ int main()
     f1.addvehicle(&c1);
     f1.addvehicle(&b1);
     f1.addvehicle(&t1);
+    f1.showAllvehicles();
+    f1.rentVehicle(0);
+    f1.returnVehicle(0,5);
     f1.showAllvehicles();
     return 0;
 }
