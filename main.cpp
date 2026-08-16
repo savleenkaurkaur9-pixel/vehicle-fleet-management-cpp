@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<fstream>
 using namespace std;
 class vehicle
 {
@@ -34,6 +35,10 @@ class vehicle
     string getName()
     {
         return name;
+    }
+    double getRate()
+    {
+        return rateperhour;
     }
     bool operator<(vehicle &other){
         return rateperhour<other.rateperhour;
@@ -124,10 +129,36 @@ vehicles[index]->rent();
 
         }
     }
+    void saveToFile()
+    {
+        ofstream outFile("fleet_data.txt");
+        for(int i=0;i<vehicles.size();i++)
+        {
+            outFile<<vehicles[i]->getName()<<"rate:"<<vehicles[i]->getRate()<<endl;
+        }
+        outFile.close();
+        cout<<"fleet data saved to file."<<endl;
+    }
+        void loadFromFile()
+        {
+            ifstream inFile("fleet_data.txt");
+            if(!inFile){
+                cout<<"No saved data found."<<endl;
+                return;
+            }
+            string line;
+            cout<<"\n--Loaded Fleet Data--"<<endl;
+            while(getline(inFile,line))
+            {
+                cout<<line<<endl;
+            }
+            inFile.close();
+        }
 };
 int main()
 {
     fleet f1;
+    f1.loadFromFile();
     Car c1(1,"Honda City",150.0);
     Bike b1(2,"Royal Enfield",80.0);
     Truck t1(3,"Tata 407",200.0);
@@ -143,5 +174,6 @@ int main()
     }else{
         cout<<t1.getName()<<"is cheaper to rent then"<<c1.getName()<<endl;
     }
+    f1.saveToFile();
     return 0;
 }
